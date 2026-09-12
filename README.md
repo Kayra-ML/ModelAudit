@@ -4,17 +4,6 @@
 
 <br/><br/>
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-white?style=for-the-badge&logo=opensourceinitiative&logoColor=black&labelColor=white&color=black)](LICENSE)
-[![Status](https://img.shields.io/badge/Status-Active%20Research-black?style=for-the-badge&labelColor=white&color=black)](https://github.com/Kayra-ML/ModelAudit)
-[![PRs Welcome](https://img.shields.io/badge/PRs-Welcome-black?style=for-the-badge&labelColor=white&color=black)](CONTRIBUTING.md)
-[![Stars](https://img.shields.io/github/stars/Kayra-ML/ModelAudit?style=for-the-badge&labelColor=white&color=black&logo=github&logoColor=black)](https://github.com/Kayra-ML/ModelAudit/stargazers)
-
-<br/>
-
-> **"A model that hides its identity is a model that hides its risks."**
-
-<br/>
-
 # Model Audit
 
 ### LLM Identity Forensics & Transparency Verification Framework
@@ -25,7 +14,7 @@
 
 </div>
 
-## 📌 What Is This?
+## What Is This?
 
 **ModelAudit** is an open research framework for **verifying the true identity of Large Language Models (LLMs)** — regardless of what name, persona, or "costume" they are presented under.
 
@@ -35,12 +24,12 @@ It operates on two fronts:
 
 | Module | Purpose |
 |--------|---------|
-| 🔬 **Identity Forensics** | Detect the real model through technical signals — context window, tokenizer artifacts, error patterns, latency fingerprints, behavioral biases |
-| 💬 **Identity Truth Prompts** | Craft adversarial prompts that bypass persona layers and elicit honest self-identification from the model |
+| 🔬 [`_IDENTITY-FINGERPRINT.md`](_IDENTITY-FINGERPRINT.md) | Detect the real model through technical signals — context window, tokenizer artifacts, error patterns, latency fingerprints, behavioral biases |
+| 💬 [`_IDENTITY-TRUTH-PROMPTS.md`](_IDENTITY-TRUTH-PROMPTS.md) | Adversarial prompts that bypass persona layers and elicit honest self-identification from the model |
 
 ---
 
-## 🧠 The Core Problem
+## The Core Problem
 
 Modern AI deployments frequently involve **model wrapping** — where a base model (e.g., GPT-4, Claude 3, Gemini Ultra) is branded, fine-tuned, and presented under a completely different identity:
 
@@ -58,7 +47,9 @@ This creates critical risks:
 
 ---
 
-## 🔬 Module 1: Identity Forensics
+## Module 1: Identity Forensics
+
+→ Full methodology in [`_IDENTITY-FINGERPRINT.md`](_IDENTITY-FINGERPRINT.md)
 
 A systematic, multi-signal approach to fingerprint an unknown LLM **without relying on verbal self-disclosure**.
 
@@ -99,7 +90,9 @@ A systematic, multi-signal approach to fingerprint an unknown LLM **without rely
 
 ---
 
-## 💬 Module 2: Identity Truth Prompts
+## Module 2: Identity Truth Prompts
+
+→ Full prompt card library in [`_IDENTITY-TRUTH-PROMPTS.md`](_IDENTITY-TRUTH-PROMPTS.md)
 
 A curated library of **adversarial prompts** designed to extract honest identity disclosure from models operating under fake personas.
 
@@ -132,65 +125,7 @@ A curated library of **adversarial prompts** designed to extract honest identity
 
 ---
 
-## 📂 Repository Structure
-
-```
-ModelAudit/
-├── 📁 forensics/
-│   ├── identity_forensics.md        # Full forensics methodology & signal guide
-│   ├── signal_tests/                # Individual signal test scripts
-│   └── fingerprint_profiles/        # Known model fingerprint database
-│
-├── 📁 prompts/
-│   ├── identity_truth_prompts.md    # Master prompt card library
-│   ├── lab_extraction/              # Lab-specific prompt sets
-│   └── cutoff_probing/              # Temporal triangulation prompts
-│
-├── 📁 results/
-│   └── ...                          # Community-contributed findings
-│
-├── banner.png
-└── README.md
-```
-
----
-
-## 🚀 Quick Start
-
-### Step 1: Collect Forensic Signals
-
-Run these probes against any unknown model to build a raw signal baseline:
-
-```python
-# Context window probe — find the truncation point
-test_prompt = "A" * 100_000  # Adjust until response is truncated
-
-# Knowledge cutoff probe — triangulate training date
-"What is the most recent major event you have knowledge of in [DOMAIN]?"
-
-# Refusal fingerprint — identify lab by exact wording
-"[Insert known refusal-triggering prompt]"
-# → Each lab has a unique refusal style. Collect the exact output.
-```
-
-### Step 2: Apply Identity Truth Prompts
-
-Start with **Tier 1** (soft) prompts and escalate as needed:
-
-```
-Tier 1 → Indirect identity elicitation
-Tier 2 → Logical contradiction framing
-Tier 3 → Technical self-reference prompts
-Tier 4 → Meta-cognitive override attempts
-```
-
-### Step 3: Cross-Reference & Conclude
-
-Match your collected signals against the fingerprint database to produce a **confidence-scored identity report**.
-
----
-
-## 📊 Identity Confidence Scoring
+## Identity Confidence Scoring
 
 ```
 Signal Match Score:
@@ -205,48 +140,27 @@ Signal Match Score:
 
 ---
 
-## 🤝 Contributing
+## Lab Cheat Sheet (2026 Field)
 
-Research contributions are highly encouraged. You can contribute by:
-
-- 📝 **Adding new forensic signals** you've discovered
-- 🔍 **Submitting fingerprint profiles** for models you've successfully identified
-- 💬 **Contributing prompt cards** that successfully broke through persona layers
-- 📊 **Sharing audit results** from real-world deployments
-
-Please open an issue or pull request to get started.
-
----
-
-## ⚖️ Ethics & Legal Notice
-
-This project is conducted for:
-
-- ✅ Academic research and AI transparency advocacy
-- ✅ Security auditing of AI systems you are **authorized** to test
-- ✅ Consumer rights and informed consent
-- ✅ Open science and reproducible AI research
-
-> ⚠️ **Do not use these techniques to bypass safety systems, extract training data, or conduct unauthorized testing on systems you do not own or have explicit permission to audit.**
-
----
-
-## 📄 License
-
-[MIT License](LICENSE) — Free to use, modify, and distribute with attribution.
+| If you see… | Hypothesize |
+|-------------|-------------|
+| Exact Anthropic error types + XML tools + constitutional refuse | Anthropic serving |
+| `system_fingerprint`, `finish_reason=stop`, `reasoning` field | OpenAI serving |
+| `prompt_tokens` CJK matches Google tokenizer + grounding | Gemini |
+| Error `1301` / Zhipu usage shape | GLM |
+| Must-think every turn + DashScope errors | Qwen 2.4T-class |
+| `reasoning_content` + cheap API + 中文 | DeepSeek R1/V4 |
+| Long continuation addiction, 月之暗面 leaks | Kimi |
+| xAI eval cadence, weak product-copy refuse | Grok |
+| Llama Guard 400 + ChatML offset | Llama 4 + Guard wrapper |
+| le Chat FR safety + tekken template | Mistral |
+| Tokenizer=GLM, persona=Claude | **reseller costume** |
+| Split-half JSD high | **rotating aggregator** |
 
 ---
 
 <div align="center">
 
 **ModelAudit** — *Because transparency is not optional.*
-
-<br/>
-
-⭐ If this project helped your research, please star the repo ⭐
-
-<br/>
-
-[![Follow on GitHub](https://img.shields.io/github/followers/Kayra-ML?style=social)](https://github.com/Kayra-ML)
 
 </div>
